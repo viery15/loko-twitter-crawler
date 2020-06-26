@@ -1,17 +1,18 @@
 "use strict";
+var request = require("request");
 var puppeteer = require("puppeteer");
 
 var url = "https://twitter.com/KAI121/with_replies";
 (async () => {
   const browser = await puppeteer.launch({
     headless: false,
-    args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-extensions"],
+    args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-extensions"]
   });
   const page = await browser.newPage();
 
   await page.goto(url, {
     waitUntil: "networkidle2",
-    timeout: 0,
+    timeout: 0
   });
 
   let allPost = [];
@@ -36,24 +37,24 @@ var url = "https://twitter.com/KAI121/with_replies";
     await page.waitFor(2000);
 
     for (let index = 2; index < jmlPost; index++) {
-      if (allPost.length >= 5) {
+      if (allPost.length >= 100) {
         loop = false;
         break;
       }
       await page.waitFor(3000);
 
-      var postCheck = await page.evaluate((index) => {
+      var postCheck = await page.evaluate(index => {
         var postAvail = document.querySelector(
           "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > div > div:nth-child(3) > section > div > div > div > div:nth-child(" +
             index +
-            ") > div > div > div > div > article"
+            ") > div > div > article"
         );
         if (postAvail != null) {
           document
             .querySelector(
               "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > div > div:nth-child(3) > section > div > div > div > div:nth-child(" +
                 index +
-                ") > div > div > div > div > article"
+                ") > div > div > article"
             )
             .click();
         }
@@ -67,19 +68,19 @@ var url = "https://twitter.com/KAI121/with_replies";
 
       const post = await page.evaluate(() => {
         var cekTanggal = document.querySelector(
-          "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(2) > div > div > div > div > article > div > div:nth-child(3) > div.css-1dbjc4n.r-vpgt9t > div > div > span:nth-child(1) > span"
+          "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(2) > div > div > article > div > div > div > div:nth-child(3) > div.css-1dbjc4n.r-vpgt9t > div > div > span:nth-child(1) > span"
         );
 
         var cekPengirim = document.querySelector(
-          "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(2) > div > div > div > div > article > div > div:nth-child(3) > div.css-1dbjc4n.r-4qtqp9.r-156q2ks > div > div > a > span"
+          "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(2) > div > div > article > div > div > div > div:nth-child(3) > div.css-1dbjc4n.r-4qtqp9.r-156q2ks > div > div > a > span"
         );
 
         var cekPertanyaan = document.querySelector(
-          "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(1) > div > div > div > div > article > div > div.css-1dbjc4n.r-18u37iz > div.css-1dbjc4n.r-1iusvr4.r-16y2uox.r-1777fci.r-1mi0q7o > div:nth-child(2) > div:nth-child(1) > div > span.css-901oao.css-16my406.r-1qd0xha.r-ad9z0x.r-bcqeeo.r-qvutc0"
+          "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(1) > div > div > article > div > div > div > div.css-1dbjc4n.r-18u37iz > div.css-1dbjc4n.r-1iusvr4.r-16y2uox.r-1777fci.r-1mi0q7o > div:nth-child(2) > div:nth-child(1) > div"
         );
 
         var cekJawaban = document.querySelector(
-          "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(2) > div > div > div > div > article > div > div:nth-child(3) > div:nth-child(2) > div > span:nth-child(1)"
+          "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(2) > div > div > article > div > div > div > div:nth-child(3) > div:nth-child(2) > div"
         );
 
         var post = "";
@@ -92,20 +93,20 @@ var url = "https://twitter.com/KAI121/with_replies";
         ) {
           post = {
             tanggal: document.querySelector(
-              "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(2) > div > div > div > div > article > div > div:nth-child(3) > div.css-1dbjc4n.r-vpgt9t > div > div > span:nth-child(1) > span"
+              "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(2) > div > div > article > div > div > div > div:nth-child(3) > div.css-1dbjc4n.r-vpgt9t > div > div > span:nth-child(1) > span"
             ).innerText,
 
             pengirim: document.querySelector(
-              "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(2) > div > div > div > div > article > div > div:nth-child(3) > div.css-1dbjc4n.r-4qtqp9.r-156q2ks > div > div > a > span"
+              "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(2) > div > div > article > div > div > div > div:nth-child(3) > div.css-1dbjc4n.r-4qtqp9.r-156q2ks > div > div > a > span"
             ).innerText,
 
             pertanyaan: document.querySelector(
-              "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(1) > div > div > div > div > article > div > div.css-1dbjc4n.r-18u37iz > div.css-1dbjc4n.r-1iusvr4.r-16y2uox.r-1777fci.r-1mi0q7o > div:nth-child(2) > div:nth-child(1) > div"
+              "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(1) > div > div > article > div > div > div > div.css-1dbjc4n.r-18u37iz > div.css-1dbjc4n.r-1iusvr4.r-16y2uox.r-1777fci.r-1mi0q7o > div:nth-child(2) > div:nth-child(1) > div"
             ).innerText,
 
             jawaban: document.querySelector(
-              "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(2) > div > div > div > div > article > div > div:nth-child(3) > div:nth-child(2) > div"
-            ).innerText,
+              "#react-root > div > div > div.css-1dbjc4n.r-13qz1uu.r-417010 > main > div > div > div > div > div > div > div > section > div > div > div > div:nth-child(2) > div > div > article > div > div > div > div:nth-child(3) > div:nth-child(2) > div"
+            ).innerText
           };
         }
 
@@ -132,10 +133,30 @@ var url = "https://twitter.com/KAI121/with_replies";
             pengirim: post.pengirim,
             pertanyaan: post.pertanyaan,
             jawaban: post.jawaban,
-            postUrl: urlPost,
+            postUrl: urlPost
           };
 
           allPost.push(resultPost);
+
+          request(
+            {
+              url:
+                "http://127.0.0.1/loko/loko-text-preproccessing/TwitterController/create",
+              method: "POST",
+              body: JSON.stringify({
+                tanggal: post.tanggal,
+                pengirim: post.pengirim,
+                pertanyaan: post.pertanyaan,
+                jawaban: post.jawaban,
+                urlPost: urlPost
+              })
+            },
+            function(error, response, body) {
+              console.log();
+              console.log("data " + allPost.length + " " + response.body);
+            }
+          );
+          await page.waitFor(7000);
         }
       }
 
