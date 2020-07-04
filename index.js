@@ -3,6 +3,7 @@ var request = require("request");
 var puppeteer = require("puppeteer");
 
 var url = "https://twitter.com/KAI121/with_replies";
+var limit = 50;
 (async () => {
   const browser = await puppeteer.launch({
     headless: false,
@@ -32,12 +33,12 @@ var url = "https://twitter.com/KAI121/with_replies";
       return jml;
     });
 
-    console.log("(" + jmlPost + ")");
+    // console.log("(" + jmlPost + ")");
 
     await page.waitFor(2000);
 
     for (let index = 2; index < jmlPost; index++) {
-      if (allPost.length >= 100) {
+      if (allPost.length >= limit) {
         loop = false;
         break;
       }
@@ -141,7 +142,7 @@ var url = "https://twitter.com/KAI121/with_replies";
           request(
             {
               url:
-                "http://127.0.0.1/loko/loko-text-preproccessing/TwitterController/create",
+                "https://loko-preprocessing.herokuapp.com/TwitterController/create",
               method: "POST",
               body: JSON.stringify({
                 tanggal: post.tanggal,
