@@ -3,7 +3,7 @@ var request = require("request");
 var puppeteer = require("puppeteer");
 
 var url = "https://twitter.com/KAI121/with_replies";
-var limit = 50;
+var limit = 5;
 (async () => {
   const browser = await puppeteer.launch({
     headless: false,
@@ -126,8 +126,6 @@ var limit = 50;
           }
         }
 
-        console.log(statusSama);
-
         if (!statusSama) {
           var resultPost = {
             tanggal: post.tanggal,
@@ -153,7 +151,6 @@ var limit = 50;
               })
             },
             function(error, response, body) {
-              console.log();
               console.log("data " + allPost.length + " " + response.body);
             }
           );
@@ -171,7 +168,7 @@ var limit = 50;
         });
       }
 
-      console.log(allPost.length);
+      // console.log(allPost.length);
     }
   }
   console.log(allPost);
